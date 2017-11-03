@@ -5,6 +5,7 @@ import { LogForm } from '../components/LogForm';
 import { STORE_LOG, STORE_ROUTER } from "../constants/stores";
 import { LogFilter} from "../constants/logs";
 
+
 export interface FormAppProps extends RouteComponentProps<any> {
     /** MobX Stores will be injected via @inject() **/
     // [STORE_ROUTER]: RouterStore;

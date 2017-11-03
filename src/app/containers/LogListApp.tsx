@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router';
-import { LogForm } from '../components/LogForm';
 import { Link } from 'react-router-dom';
 import { STORE_LOG } from "../constants/stores";
 import { LogStore } from "../stores/LogStore";
