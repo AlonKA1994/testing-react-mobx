@@ -4,37 +4,22 @@ import { createBrowserHistory } from 'history';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Router, Route, Switch } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Root } from './containers/Root';
-import { TodoModel } from './models/TodoModel';
-import { TodoStore, RouterStore, LogStore } from './stores';
-import { STORE_TODO, STORE_ROUTER, STORE_LOG } from './constants/stores';
-import { TodoFilter } from './constants/todos';
+import { RouterStore, LogStore } from './stores';
+import { STORE_ROUTER, STORE_LOG } from './constants/stores';
 import { LogModel } from './models/LogModel';
 import { FormApp } from "./containers/FormApp";
+import { LogListApp } from "./containers/LogListApp";
 
 // enable MobX strict mode
 useStrict(true);
 
-// default fixtures for TodoStore
-/*const defaultTodos = [
-  new TodoModel('Use Mobx'),
-  new TodoModel('Use React', true),
-];
-
 // prepare MobX stores
-const history = createBrowserHistory();
-const todoStore = new TodoStore(defaultTodos);
-const routerStore = new RouterStore(history);
-const rootStores = {
-  [STORE_TODO]: todoStore,
-  [STORE_ROUTER]: routerStore
-};*/
-
-// prepare MobX stores (my add)
 
 const defaultLogs = [
-  new LogModel('Alon', 'Path', true),
-  new LogModel('Akerman', 'Hard Path', false)
+  new LogModel('Alon', 'Path', true, []),
+  new LogModel('Akerman', 'Hard Path', false, [])
 ];
 const history = createBrowserHistory();
 const logStore = new LogStore(defaultLogs);
@@ -44,6 +29,11 @@ const rootStores = {
     [STORE_ROUTER]: routerStore
 };
 
+const editFormApp = ({ match }) => (
+    <div>
+        <FormApp {...match} logID={match.params.logId}/>
+    </div>  
+)
 
 // render react DOM
 ReactDOM.render(
@@ -51,7 +41,17 @@ ReactDOM.render(
     <Root>
       <Router history={history} >
         <Switch>
-          <Route path="/" component={FormApp} />
+            <div>
+                <ul>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/new">New</Link></li>
+                    <li><Link to="/about">List</Link></li>
+                </ul>
+                  <Route exact path="/" />
+                  <Route path="/new" component={FormApp} />
+                  <Route path="/edit/:logId" component={editFormApp}/>
+                  <Route path="/about" component={LogListApp}/>
+            </div>
         </Switch>
       </Router>
     </Root>

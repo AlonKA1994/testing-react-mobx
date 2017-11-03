@@ -5,7 +5,7 @@ export class LogStore {
 
     @observable public logs: Array<LogModel>;
 
-    constructor(fixtures: LogModel[]) {
+    constructor(fixtures: Array<LogModel>) {
         this.logs = fixtures;
 
         this.addLog = this.addLog.bind(this);
@@ -14,8 +14,8 @@ export class LogStore {
     }
 
     @action("Adding new log")
-    addLog(item: Partial<LogModel>): void {
-        this.logs.push(new LogModel(item.strLogName, item.strLogPath, item.bLogContinued, null));
+    addLog(item: LogModel): void {
+        this.logs.push(item);
     }
 
     @action("Editing a specific log")

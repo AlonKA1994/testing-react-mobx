@@ -6,23 +6,27 @@ import { RegExpModal } from "../models/RegExpModal";
 import { RegularExpressionForm } from "./RegularExpressionForm";
 
 export interface ILogFormProps {
-    addLog: (log: Partial<LogModel>) => any;
-    editLog: (id: number, log: Partial<LogModel>) => any
+    handleChangePath: () => any;
+    addLog: (log: LogModel) => any;
+    editLog: (id: number, log: Partial<LogModel>) => any;
+    logEdit ?: LogModel;
 }
 
 export interface ILogFormState {
     log: LogModel
     errorMsg_logName: string
     errorMsg_logPath: string
+    editableLog: boolean
 }
 
 export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
 
     constructor(props?: ILogFormProps, context?: any) {
         super(props, context);
-        this.state = { log: null,
+        this.state = { log: new LogModel("","",false,new Array<RegExpModal>()),
                        errorMsg_logName: "",
-                       errorMsg_logPath: ""};
+                       errorMsg_logPath: "",
+                       editableLog: false};
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.validateLogName = this.validateLogName.bind(this);
@@ -31,10 +35,25 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
     }
 
 
+    // componentWillMount(){
+    //     let tmp = new LogModel("","",false,[]);
+    //     this.setState({log: tmp});
+    //     // this.props.addLog(tmp);
+    // }
+    //componentDidMount(){
     componentWillMount(){
-        let tmp = new LogModel("","",false,[]);
-        this.setState({log: tmp});
-        this.props.addLog(tmp);
+        //Check if the component should be about editable log
+        if(this.props.logEdit){
+            let tmp = this.props.logEdit;
+            this.setState({log: tmp});
+            this.setState({editableLog: true});
+        }
+        // else{
+        //     let tmpLocal = JSON.parse(localStorage.getItem('log'));
+        //     if(tmpLocal){
+        //         this.setState({log: tmpLocal});
+        //     }
+        // }
     }
 
     // Function that get value from the children and store in the father
@@ -52,7 +71,14 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
 
         if (bLogNameValid && bLogPathValid && bRegExpValid){
             //this.props.addLog(new LogModel(strLogName,strLogPath,bIsLogContinued, arrRexExp));
-            this.props.editLog(this.state.log.id, this.state.log);
+            // this.props.editLog(this.state.log.id, this.state.log);
+            if (this.state.editableLog){
+                this.props.editLog(this.state.log.id, this.state.log);
+            } else {
+                this.props.addLog(this.state.log);
+            }
+            // localStorage.setItem('log', JSON.stringify(this.state.log));
+            this.props.handleChangePath();
         }
     }
 
@@ -74,7 +100,7 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
             bIsValidated = true;
         }
 
-        this.handleChange("errorMsg_logName", strErrorMsg);
+        this.setState({errorMsg_logName: strErrorMsg});
         return bIsValidated;
     }
 
@@ -96,7 +122,7 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
             bIsValidated = true;
         }
 
-        this.handleChange("errorMsg_logPath", strErrorMsg);
+        this.setState({errorMsg_logPath: strErrorMsg});
         return bIsValidated;
     }
 
@@ -117,9 +143,13 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
         return (
             <div>
                 <h1><u>Hello world</u></h1>
-                <LogName handleLogName={this.handleChange} error={this.state.errorMsg_logName} name="logName"/>
-                <LogPath handleLogName={this.handleChange} error={this.state.errorMsg_logPath} nameField="logPath" nameBoolean="isLogContinued"/>
-                <RegularExpressionForm handleArrayRegExp={this.handleChange} name="arrRegExp"/>
+                <LogName handleLogName={this.handleChange} error={this.state.errorMsg_logName} name="logName"
+                         valueString={this.state.log.strLogName}/>
+                <LogPath handleLogName={this.handleChange} error={this.state.errorMsg_logPath}
+                         nameField="logPath" nameBoolean="isLogContinued"
+                         valueString={this.state.log.strLogPath} valueBoolean={this.state.log.bLogContinued} />
+                <RegularExpressionForm handleArrayRegExp={this.handleChange} name="arrRegExp"
+                         valueArray={this.state.log.arrRegExp}/>
                 <button type="sumbit" onClick={this.handleSave}>Sumbit</button>
             </div>
         );

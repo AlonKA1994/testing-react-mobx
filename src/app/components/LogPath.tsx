@@ -5,6 +5,8 @@ interface ILogPathProps {
     error: string;
     nameField: string;
     nameBoolean: string;
+    valueString: string;
+    valueBoolean: boolean;
 }
 
 interface ILogPathState {
@@ -20,20 +22,27 @@ export class LogPath extends React.Component <ILogPathProps,ILogPathState> {
             errorD: this.props.error
         };
 
-        this.handleChildLogName = this.handleChildLogName.bind(this);
+        this.handleChildLogPathString = this.handleChildLogPathString.bind(this);
+        this.handleChildLogPathBoolean = this.handleChildLogPathBoolean.bind(this);
     }
 
-    handleChildLogName(event: any){
+    handleChildLogPathString(event: any){
         this.props.handleLogName(event.target.name, event.target.value);
+    }
+
+    handleChildLogPathBoolean(event: any){
+        this.props.handleLogName(event.target.name, event.target.checked);
     }
 
     render() {
         return (
             <div >
                 <label >Log path:</label>
-                <input type="text" name={this.props.nameField} placeholder="Log path" onChange={this.handleChildLogName}/>
+                <input type="text" name={this.props.nameField} placeholder="Log path"
+                       onChange={this.handleChildLogPathString} value={this.props.valueString}/>
                 <div >
-                    Continues log? <input name={this.props.nameBoolean} type="checkbox" value="true" onChange={this.handleChildLogName}/>
+                    Continues log? <input type="checkbox" name={this.props.nameBoolean}
+                                    onChange={this.handleChildLogPathBoolean} checked={this.props.valueBoolean} />
                 </div>
                 <span>{this.props.error}</span>
             </div>

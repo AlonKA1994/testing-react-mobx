@@ -4,6 +4,7 @@ interface ILogNameProps {
     handleLogName: (fieldName: string, value: any) => any
     error: string;
     name: string;
+    valueString: string;
 }
 
 interface ILogNameState {
@@ -29,7 +30,8 @@ export class LogName extends React.Component<ILogNameProps,ILogNameState> {
         return (
             <div >
                 <label >Log name:</label>
-                <input type="text" name={this.props.name} placeholder="Log name" onChange={this.handleChildLogName}/>
+                <input type="text" name={this.props.name} placeholder="Log name" onChange={this.handleChildLogName}
+                        value={this.props.valueString}/>
                 <br/>
                 <span>{this.props.error}</span>
             </div>

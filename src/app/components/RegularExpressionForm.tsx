@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { RegExpModal } from "../models/RegExpModal";
-import {isNullOrUndefined, isUndefined} from "util";
 import {RegularExpression} from "./RegularExpression";
 
 interface IRegExpFormProps {
     handleArrayRegExp: (fieldName: string, value: any) => any
     name: string;
+    valueArray: Array<RegExpModal>
 }
 
 interface IRegExpFormState {
@@ -16,7 +16,7 @@ export class RegularExpressionForm extends React.Component<IRegExpFormProps,IReg
 
     constructor(props: any){
         super(props);
-        this.state ={arrRegExp : []}
+        this.state ={arrRegExp : this.props.valueArray}
         this.addReg = this.addReg.bind(this);
         this.remReg = this.remReg.bind(this);
         this.updateReg = this.updateReg.bind(this);
@@ -24,31 +24,18 @@ export class RegularExpressionForm extends React.Component<IRegExpFormProps,IReg
     }
 
     addReg(){
-        let tmp = this.state.arrRegExp;
-        let tmpA = new RegExpModal("");
-        tmp.push(tmpA);
+        var tmp : Array<RegExpModal> = this.state.arrRegExp;
+        tmp.push(new RegExpModal(""));
         this.setState({arrRegExp: tmp});
         this.handleChildArrRegExp();
     }
 
-    // remReg(event: any){
-    //     let tmp = this.state.arrRegExp.filter((regExp) => regExp.id.toString() !== event.target.id);
-    //     this.setState({arrRegExp: tmp});
-    // }
-
-    // updateReg(event: any){
-    //     let tmp = this.state.arrRegExp.map((regExp) => {
-    //         if (regExp.id.toString() === event.target.id) {
-    //             regExp.strRegExp = event.target.value;
-    //         }
-    //         return regExp;
-    //     });
-    //     this.setState({arrRegExp: tmp});
-    // }
-
     remReg(id: string){
-        let tmp = this.state.arrRegExp.filter((regExp) => regExp.id.toString() !== id);
-        this.setState({arrRegExp: tmp});
+        var tmp : Array<RegExpModal> = this.state.arrRegExp.filter((regExp) => regExp.id.toString() !== id).slice();
+        this.setState({arrRegExp: tmp.slice()}, function () {
+            this.handleChildArrRegExp();
+        });
+
     }
 
     updateReg(id: string, strNewRegExpValue: string){
@@ -66,10 +53,12 @@ export class RegularExpressionForm extends React.Component<IRegExpFormProps,IReg
     }
 
     render() {
+
         const regExps = this.state.arrRegExp.map((regExp) =>
                 <RegularExpression key={regExp.id} id={regExp.id} regExpValue={regExp.strRegExp}
                         onDelete={this.remReg} onUpdate={this.updateReg}/>
         );
+
         return (
             <div onChange={this.handleChildArrRegExp}>
                 { regExps }
