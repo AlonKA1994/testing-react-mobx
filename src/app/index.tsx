@@ -11,7 +11,7 @@ import { STORE_ROUTER, STORE_LOG } from './constants/stores';
 import { LogModel } from './models/LogModel';
 import { FormApp } from "./containers/FormApp";
 import { LogListApp } from "./containers/LogListApp";
-import { Button } from 'reactstrap'
+import { Navbar,Nav, NavItem, NavLink } from 'reactstrap';
 
 // enable MobX strict mode
 useStrict(true);
@@ -36,15 +36,38 @@ const EditFormApp = ({ match }) => (
     </div>  
 )
 
+
+const MyNavBar = () => (
+    <Nav>
+        <NavItem>
+            <Link to="/">Home</Link>
+        </NavItem>
+        <NavItem>
+            <Link to="/new">New</Link>
+        </NavItem>
+        <NavItem>
+            <Link to="/about">List</Link>
+        </NavItem>
+    </Nav>
+)
+
 const MyRouter = () => (
     <div>
-        {/*<Button color="danger">nnnnn</Button>*/}
-        {/*<div className="btn btn-danger">aaaaa</div>*/}
-        <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/new">New</Link></li>
-            <li><Link to="/about">List</Link></li>
-        </ul>
+{/*        <Nav>
+            <NavItem>
+                <Link to="/">Home</Link>
+            </NavItem>
+            <NavItem>
+                <Link to="/new">New</Link>
+            </NavItem>
+            <NavItem>
+                <Link to="/about">List</Link>
+            </NavItem>
+        </Nav>*/}
+        {/*<li><Link to="/">Home</Link></li>*/}
+        {/*<li><Link to="/new">New</Link></li>*/}
+        {/*<li><Link to="/about">List</Link></li>*/}
+        <MyNavBar/>
         <Route exact path="/" />
         <Route path="/new" component={FormApp} />
         <Route path="/edit/:logId" component={EditFormApp}/>
