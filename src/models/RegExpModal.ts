@@ -7,9 +7,15 @@ export class RegExpModal {
 
 
     constructor(regExp: string) {
-        this.id = RegExpModal.generateId();
+        this.id = Date.now();
         this.strRegExp = regExp;
     };
+
+    public toJson(){
+        let json: string = JSON.stringify(this.id) + JSON.stringify(this.strRegExp);
+
+        return json;
+    }
 
     static nextId = 1;
     static generateId() {

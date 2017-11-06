@@ -5,6 +5,7 @@ import { LogForm } from '../components/LogForm';
 import { STORE_LOG, STORE_ROUTER } from "../constants/stores";
 import { LogFilter} from "../constants/logs";
 
+
 export interface FormAppProps extends RouteComponentProps<any> {
     /** MobX Stores will be injected via @inject() **/
     // [STORE_ROUTER]: RouterStore;
@@ -32,7 +33,7 @@ export class FormApp extends React.Component<FormAppProps, FormAppState> {
     }
 
     handleChangePath(){
-        this.props.router.history.replace("/");
+        this.props.router.history.replace("/about");
     }
 
     render() {
@@ -41,11 +42,11 @@ export class FormApp extends React.Component<FormAppProps, FormAppState> {
             log.id.toString() === this.props.logID);
 
         return (
-            <div>
+            <div className="text-right container">
                 <LogForm handleChangePath={this.handleChangePath}
-                        addLog={logStore.addLog}
-                        editLog={logStore.editLog}
-                        logEdit={editLog}/>
+                         addLog={logStore.addLog}
+                         editLog={logStore.editLog}
+                         logToEdit={editLog}/>
             </div>
         );
     }

@@ -62,7 +62,8 @@ export class RegularExpressionForm extends React.Component<IRegExpFormProps,IReg
         return (
             <div onChange={this.handleChildArrRegExp}>
                 { regExps }
-                <button type="button" onClick={this.addReg}> הוסף ביטוי רגולרי</button>
+                <button type="button" onClick={this.addReg}
+                    className="btn-primary"> הוסף ביטוי רגולרי</button>
             </div>
         );
     }

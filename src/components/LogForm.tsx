@@ -4,12 +4,13 @@ import { LogPath } from '../components/LogPath';
 import { LogModel } from "../models/LogModel";
 import { RegExpModal } from "../models/RegExpModal";
 import { RegularExpressionForm } from "./RegularExpressionForm";
+import {isNullOrUndefined} from "util";
 
 export interface ILogFormProps {
     handleChangePath: () => any;
     addLog: (log: LogModel) => any;
     editLog: (id: number, log: Partial<LogModel>) => any;
-    logEdit ?: LogModel;
+    logToEdit ?: LogModel;
 }
 
 export interface ILogFormState {
@@ -43,8 +44,8 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
     //componentDidMount(){
     componentWillMount(){
         //Check if the component should be about editable log
-        if(this.props.logEdit){
-            let tmp = this.props.logEdit;
+        if(this.props.logToEdit){
+            let tmp = this.props.logToEdit;
             this.setState({log: tmp});
             this.setState({editableLog: true});
         }
@@ -58,7 +59,12 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
 
     // Function that get value from the children and store in the father
     handleChange(fieldName : string, value: any){
-        let tmpLog = this.state.log;
+        let tmpLog : LogModel = new LogModel("","",false,[]);//= this.state.log;
+        tmpLog.id = this.state.log.id;
+        tmpLog.strLogName = this.state.log.strLogName;
+        tmpLog.strLogPath = this.state.log.strLogPath;
+        tmpLog.bLogContinued = this.state.log.bLogContinued;
+        tmpLog.arrRegExp = this.state.log.arrRegExp;
         tmpLog.updater(fieldName, value);
         this.setState({log: tmpLog});
     }
@@ -70,8 +76,6 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
         let bRegExpValid = this.validateRegExp();
 
         if (bLogNameValid && bLogPathValid && bRegExpValid){
-            //this.props.addLog(new LogModel(strLogName,strLogPath,bIsLogContinued, arrRexExp));
-            // this.props.editLog(this.state.log.id, this.state.log);
             if (this.state.editableLog){
                 this.props.editLog(this.state.log.id, this.state.log);
             } else {
@@ -141,8 +145,10 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
 
     render() {
         return (
-            <div>
-                <h1><u>Hello world</u></h1>
+            <div className="row justify-content-center ">
+                <div className="col-9  border border-black rounded-bottom">
+                <h1 className="text-center">
+                    <u>{isNullOrUndefined(this.props.logToEdit) ? "יצירת לוג חדש" : "עדכן לוג"}</u></h1>
                 <LogName handleLogName={this.handleChange} error={this.state.errorMsg_logName} name="logName"
                          valueString={this.state.log.strLogName}/>
                 <LogPath handleLogName={this.handleChange} error={this.state.errorMsg_logPath}
@@ -150,7 +156,12 @@ export class LogForm extends React.Component<ILogFormProps, ILogFormState> {
                          valueString={this.state.log.strLogPath} valueBoolean={this.state.log.bLogContinued} />
                 <RegularExpressionForm handleArrayRegExp={this.handleChange} name="arrRegExp"
                          valueArray={this.state.log.arrRegExp}/>
-                <button type="sumbit" onClick={this.handleSave}>Sumbit</button>
+                <br/>
+                <div className="row justify-content-center">
+                    <button type="sumbit" onClick={this.handleSave}
+                        className="btn-success align-middle">שמור</button>
+                </div>
+                </div>
             </div>
         );
     }

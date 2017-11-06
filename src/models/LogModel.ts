@@ -3,14 +3,15 @@ import { RegExpModal } from './RegExpModal';
 
 export class LogModel {
 
-    readonly id: number;
+    //readonly
+    id: number;
     @observable public strLogName: string;
     @observable public strLogPath: string;
     @observable public bLogContinued: boolean;
-    @observable public arrRegExp: Array<RegExpModal>;
+    @observable public arrRegExp:RegExpModal[];
 
-    constructor(logName: string, logPath: string, isLogContinued: boolean, arrRegExp: Array<RegExpModal>) {
-        this.id = LogModel.generateId();
+    constructor(logName: string, logPath: string, isLogContinued: boolean, arrRegExp: RegExpModal[]) {
+        this.id = Date.now();
         this.strLogName = logName;
         this.strLogPath = logPath;
         this.bLogContinued = isLogContinued;
@@ -35,28 +36,21 @@ export class LogModel {
         }
     }
 
+    public toJson(){
+        let json : string = JSON.stringify(this.id) + JSON.stringify(this.strLogName) +
+                   JSON.stringify(this.strLogPath) + JSON.stringify(this.bLogContinued);
 
-    public addRegExp(strRegExpValue: string){
-        this.arrRegExp.push(new RegExpModal(strRegExpValue));
-    }
+        let jsonArr : string = "";
 
-    public removeRegExp(id: string){
-        this.arrRegExp = this.arrRegExp.filter((regExp) => regExp.id.toString() !== id)
-    }
+        // for(let i=0; i<this.arrRegExp.length; i++){
+        //     jsonArr.concat(regExp.toJson());
+        // }
 
-    public updateRegExp(id: string, strNewRegExpValue: string){
-        this.arrRegExp = this.arrRegExp.map((regExp) => {
-            if (regExp.id.toString() === id) {
-                regExp.strRegExp = strNewRegExpValue;
-            }
-            return regExp;
-        });
+        return json + jsonArr;
     }
 
     static nextId = 1;
 
-    //TODO: Need to think about an idea of how to decrease the ID if the user didn't submit new log
-    // A solution might be to go back on the states of LogForm to the params of the LogModel and not a state of LogModel itself
     static generateId() {
         return this.nextId++;
     }
