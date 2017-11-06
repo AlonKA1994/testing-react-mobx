@@ -37,14 +37,15 @@ export class LogPath extends React.Component <ILogPathProps,ILogPathState> {
     render() {
         return (
             <div >
-                <label >Log path:</label>
-                <input type="text" name={this.props.nameField} placeholder="Log path"
-                       onChange={this.handleChildLogPathString} value={this.props.valueString}/>
+                <label>נתיב הלוג:</label>
+                <input type="text" name={this.props.nameField} placeholder="נתיב הלוג"
+                onChange={this.handleChildLogPathString} value={this.props.valueString}
+                className={`form-control ${this.props.valueString.length > 0 ? "text-left" : "text-right" }`}/>
+                <span className="text-danger">{this.props.error}</span>
                 <div >
-                    Continues log? <input type="checkbox" name={this.props.nameBoolean}
-                                    onChange={this.handleChildLogPathBoolean} checked={this.props.valueBoolean} />
+ לוג מתגלגל?                <input type="checkbox" name={this.props.nameBoolean}
+                       onChange={this.handleChildLogPathBoolean} checked={this.props.valueBoolean} />
                 </div>
-                <span>{this.props.error}</span>
             </div>
         );
     }

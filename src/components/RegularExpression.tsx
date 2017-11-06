@@ -55,12 +55,14 @@ export class RegularExpression extends React.Component <IRegExpProps,IRegExpStat
     render() {
         return (
             <div key={this.props.id}>
-                <input id={this.props.id.toString()} placeholder="Enter Regular Expression"
-                       onChange={this.updateReg} value={this.props.regExpValue}
-                        onBlur={this.validateRegExp}/>
-                <button onClick={this.removeReg} id={this.props.id.toString()}>Delete</button>
-                <span>{this.state.error}</span>
-                <br/>
+                <div className="input-group">
+                    <input autoFocus id={this.props.id.toString()} placeholder="הכנס ביטוי רגולרי"
+                        onChange={this.updateReg} value={this.props.regExpValue} onBlur={this.validateRegExp}
+                       className={`form-control ${this.props.regExpValue.length > 0 ? "text-left" : "text-right" }`}/>
+                    <button onClick={this.removeReg} id={this.props.id.toString()}
+                            className="btn-danger">מחיקה</button>
+                </div>
+                <span className="text-danger">{this.state.error}</span>
             </div>
         );
     }

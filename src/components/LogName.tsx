@@ -29,11 +29,11 @@ export class LogName extends React.Component<ILogNameProps,ILogNameState> {
     render() {
         return (
             <div >
-                <label >Log name:</label>
-                <input type="text" name={this.props.name} placeholder="Log name" onChange={this.handleChildLogName}
-                        value={this.props.valueString}/>
-                <br/>
-                <span>{this.props.error}</span>
+                <label>שם לוג:</label>
+                <input type="text" name={this.props.name} placeholder="שם לוג"
+                       onChange={this.handleChildLogName} value={this.props.valueString}
+                       className={`form-control ${this.props.valueString.length > 0 ? "text-left" : "text-right" }`}/>
+                <span className="text-danger">{this.props.error}</span>
             </div>
         );
     }

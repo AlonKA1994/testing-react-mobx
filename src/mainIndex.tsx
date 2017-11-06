@@ -4,13 +4,13 @@ import { createBrowserHistory } from 'history';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Router, Route, Switch } from 'react-router';
-import { Link } from 'react-router-dom';
 import { Root } from './containers/Root';
 import { RouterStore, LogStore } from './stores';
 import { STORE_ROUTER, STORE_LOG } from './constants/stores';
 import { LogModel } from './models/LogModel';
 import { FormApp } from "./containers/FormApp";
 import { LogListApp } from "./containers/LogListApp";
+import 'bootstrap/dist/css/bootstrap.css';
 
 // enable MobX strict mode
 useStrict(true);
@@ -18,7 +18,7 @@ useStrict(true);
 // prepare MobX stores
 
 const defaultLogs = [
-  new LogModel('Alon', 'Path', true, []),
+  new LogModel('Alons', 'Path', true, []),
   new LogModel('Akerman', 'Hard Path', false, [])
 ];
 const history = createBrowserHistory();
@@ -35,13 +35,24 @@ const EditFormApp = ({ match }) => (
     </div>  
 )
 
+
+const MyNavBar = () => (
+    <ul className="nav nav-tabs ">
+        <li className="nav-item">
+            <a className="nav-link " href="/">בית</a>
+        </li>
+        <li className="nav-item">
+            <a className="nav-link" href="/new">חדש</a>
+        </li>
+        <li className="nav-item">
+            <a className="nav-link" href="/about">רשימה</a>
+        </li>
+    </ul>
+)
+
 const MyRouter = () => (
     <div>
-        <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/new">New</Link></li>
-            <li><Link to="/about">List</Link></li>
-        </ul>
+        <MyNavBar/>
         <Route exact path="/" />
         <Route path="/new" component={FormApp} />
         <Route path="/edit/:logId" component={EditFormApp}/>
