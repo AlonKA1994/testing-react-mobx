@@ -3,8 +3,6 @@ import { inject, observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router';
 import { LogForm } from '../components/LogForm';
 import { STORE_LOG, STORE_ROUTER } from "../constants/stores";
-import { LogFilter} from "../constants/logs";
-
 
 export interface FormAppProps extends RouteComponentProps<any> {
     /** MobX Stores will be injected via @inject() **/
@@ -15,7 +13,6 @@ export interface FormAppProps extends RouteComponentProps<any> {
 }
 
 export interface FormAppState {
-    filter: LogFilter;
 }
 
 @inject(STORE_LOG, STORE_ROUTER)
@@ -25,15 +22,12 @@ export class FormApp extends React.Component<FormAppProps, FormAppState> {
 
     constructor(props: any, context: any) {
         super(props, context);
-        this.state = {
-            filter: LogFilter.Home
-        };
 
         this.handleChangePath = this.handleChangePath.bind(this);
     }
 
     handleChangePath(){
-        this.props.router.history.replace("/about");
+        this.props.router.history.replace("/list");
     }
 
     render() {

@@ -1,20 +1,28 @@
 # React-TypeScript-MobX project
 
-Project that works about the combiniatio of react, typescript, mobx and bootstrap together.
+Project that works about the combination of react, typescript, mobx, node, express and bootstrap.
+The project has Client-side + Server-side
+
 ## Setup
 
 ```
 $ npm install
 ```
 
-## Running
+## Running client-side only
 
 ```
 $ npm start
 ```
 
-## Build
+## Build client-side
 
 ```
 $ npm run build
+```
+
+## Running server-side
+
+```
+$ node server
 ```

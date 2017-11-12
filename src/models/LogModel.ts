@@ -35,25 +35,6 @@ export class LogModel {
                 break;
         }
     }
-
-    public toJson(){
-        let json : string = JSON.stringify(this.id) + JSON.stringify(this.strLogName) +
-                   JSON.stringify(this.strLogPath) + JSON.stringify(this.bLogContinued);
-
-        let jsonArr : string = "";
-
-        // for(let i=0; i<this.arrRegExp.length; i++){
-        //     jsonArr.concat(regExp.toJson());
-        // }
-
-        return json + jsonArr;
-    }
-
-    static nextId = 1;
-
-    static generateId() {
-        return this.nextId++;
-    }
 }
 
 export default LogModel;

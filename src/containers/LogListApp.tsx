@@ -11,7 +11,6 @@ export interface FormAppProps extends RouteComponentProps<any> {
 }
 
 export interface FormAppState {
-
 }
 
 @inject(STORE_LOG)

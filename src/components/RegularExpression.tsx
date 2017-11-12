@@ -11,7 +11,6 @@ interface IRegExpState {
     error: string
 }
 
-
 export class RegularExpression extends React.Component <IRegExpProps,IRegExpState> {
 
     constructor(props: any){
@@ -30,6 +29,7 @@ export class RegularExpression extends React.Component <IRegExpProps,IRegExpStat
     removeReg(event: any){
         this.props.onDelete(event.target.id)
     }
+
 
     validateRegExp(event: any){
         let bIsValidated : boolean;

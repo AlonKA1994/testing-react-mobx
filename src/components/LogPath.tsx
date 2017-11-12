@@ -10,7 +10,6 @@ interface ILogPathProps {
 }
 
 interface ILogPathState {
-    errorD: string;
 }
 
 
@@ -18,18 +17,17 @@ export class LogPath extends React.Component <ILogPathProps,ILogPathState> {
 
     constructor(props: any){
         super(props);
-        this.state = {
-            errorD: this.props.error
-        };
 
         this.handleChildLogPathString = this.handleChildLogPathString.bind(this);
         this.handleChildLogPathBoolean = this.handleChildLogPathBoolean.bind(this);
     }
 
+    // Pass the changes in the input's value back to the father to update
     handleChildLogPathString(event: any){
         this.props.handleLogName(event.target.name, event.target.value);
     }
 
+    // Pass the changes in the checkbox's value back to the father to update
     handleChildLogPathBoolean(event: any){
         this.props.handleLogName(event.target.name, event.target.checked);
     }
