@@ -1,13 +1,13 @@
-var Log         = require('../models/Logs');
+var LogModel         = require('../models/LogModel');
 
 module.exports = function LogService() {
 
     this.getAllLogs = function () {
-        return Log.find();
+        return LogModel.find();
     };
 
     this.insertNewLog = function (newLog) {
-        let tmpLog = new Log();
+        let tmpLog = new LogModel();
 
         tmpLog.strLogName = newLog.strLogName;
         tmpLog.strLogPath = newLog.strLogPath;
@@ -20,12 +20,12 @@ module.exports = function LogService() {
     this.updateLog = function (id, updatedLog) {
         let condition = { _id : id };
 
-        return Log.update(condition, updatedLog).exec();
+        return LogModel.update(condition, updatedLog).exec();
     };
 
     this.deleteLog = function (id) {
         let condition = { _id : id };
 
-        return Log.remove(condition).exec();
+        return LogModel.remove(condition).exec();
     };
 };

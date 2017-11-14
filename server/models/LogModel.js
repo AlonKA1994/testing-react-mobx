@@ -1,17 +1,24 @@
-// LogModel.js
+var mongoose     = require('mongoose');
+mongoose.Promise = require('bluebird')
+var Schema       = mongoose.Schema;
 
-var LogModel = function (data) {
-    this.data = data;
-    this.data.id = Date.now();
-};
+var LogSchema   = new Schema({
+    strLogName: String,
+    strLogPath: String,
+    bLogContinued: Boolean,
+    arrRegExp: Array
+    },
+    {
+        versionKey: false
+    }
+);
 
-LogModel.prototype.data = {}
+LogSchema.set('toJSON', {
+    transform: function (doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+    }
+})
 
-LogModel.prototype.get = function (name) {
-    return this.data[name];
-}
 
-LogModel.prototype.set = function (name, value) {
-    this.data[name] = value;
-}
-module.exports = LogModel;
+module.exports = mongoose.model('Log', LogSchema);
