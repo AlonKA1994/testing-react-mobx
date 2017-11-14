@@ -4,7 +4,7 @@ import { RegExpModal } from './RegExpModal';
 export class LogModel {
 
     //readonly
-    id: number;
+    id: any;
     @observable public strLogName: string;
     @observable public strLogPath: string;
     @observable public bLogContinued: boolean;

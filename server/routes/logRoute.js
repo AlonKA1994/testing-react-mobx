@@ -1,6 +1,10 @@
 const express    = require('express');
 const LogModel   = require("../models/LogModel")
 
+//~~~~~~~~~~~~~
+var logService  = require('../service/LogService');
+//~~~~~~~~~~~~~
+
 let arrAllLogs = [];
 let tmpStart =
     new LogModel({
@@ -79,5 +83,101 @@ router.route('/logs/:log_id')
         res.status(200).json({message: "Log was deleted"});
     });
 
+///~~~~~~~~~~~~~~~~~
 
+// on routes that end in /bears
+// ----------------------------------------------------
+router.route('/bears')
+    // get all the bears (accessed at GET http://localhost:8080/api/bears)
+    .get((req,res) => {
+        // var promise = Log.getAllLogs();
+        // promise
+        new logService().getAllLogs()
+            .then((logs) => {
+                res.json(logs);
+            })
+            .error((err)=> {
+                res.send(err);
+            });
+    })
+    // create a bear (accessed at POST http://localhost:8080/api/bears)
+    .post(function(req, res) {
+
+        // var log = new Log();      // create a new instance of the Bear model
+        // log.strLogName    =  req.body.LogObject.strLogName;  // set the bears name (comes from the request)
+        // log.strLogPath    =  req.body.LogObject.strLogPath;
+        // log.bLogContinued =  req.body.LogObject.bLogContinued;
+        // log.arrRegExp     =  req.body.LogObject.arrRegExp;
+        // save the bear and check for errors
+        // log.save(function(err) {
+        //     if (err)
+        //         res.send(err);
+        //
+        //     res.json({ message: 'Log created!' });
+        // });
+        new logService().insertNewLog(req.body.LogObject)
+            .then(() => {
+                res.json({ message: 'Log created!' });
+            })
+            .error((err) => {
+                res.send(err);
+            });
+    });
+
+// on routes that end in /bears/:bear_id
+// ----------------------------------------------------
+router.route('/bears/:bear_id')
+    // update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
+    .put(function(req, res) {
+
+        new logService().updateLog(req.params.bear_id, req.body.LogObject)
+            .then(()=>{
+                res.json({ message: 'Successfully updated' });
+            })
+            .error((err) => {
+                res.send(err);
+            })
+        // // use our bear model to find the bear we want
+        // Log.findById(req.params.bear_id, function(err, log) {
+        //
+        //     if (err)
+        //         res.send(err);
+        //
+        //     log.strLogName    =  req.body.LogObject.strLogName;
+        //     log.strLogPath    =  req.body.LogObject.strLogPath;
+        //     log.bLogContinued =  req.body.LogObject.bLogContinued;
+        //     log.arrRegExp     =  req.body.LogObject.arrRegExp;
+        //
+        //     // save the bear
+        //     log.save(function(err) {
+        //         if (err)
+        //             res.send(err);
+        //
+        //         res.json({ message: 'Bear updated!' });
+        //     });
+        //
+        // });
+    })
+
+    // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+    .delete(function(req, res) {
+        new logService().deleteLog(req.params.bear_id)
+            .then(() =>{
+                res.json({ message: 'Successfully deleted' });
+            })
+            .error((err) =>{
+                res.send(err);
+            })
+        // Log.remove({
+        //     _id: req.params.bear_id
+        // }, function(err, log) {
+        //     if (err)
+        //         res.send(err);
+        //
+        //     res.json({ message: 'Successfully deleted' });
+        // });
+    });
+
+
+///~~~~~~~~~~~~~~~~~
 module.exports = router;
